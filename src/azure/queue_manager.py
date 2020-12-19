@@ -6,7 +6,7 @@ from typing import List
 import boto3
 
 class QueueManager(IQueueManager):
-    def __init__(self, url = None: str, token = None: str):
+    def __init__(self, url: str = None, token: str = None):
         self.url = url
         self.token = token
         self.queue_service = None

@@ -13,7 +13,7 @@ def test_if_a_queue_can_be_created_got_and_deleted(self):
 
     queues_name = queue_manager.list_queues_name()
 
-    assert queues_name = [queue_name]
+    assert queues_name == [queue_name]
 
     queue_created = queue_manager.get(queue_name)
 
