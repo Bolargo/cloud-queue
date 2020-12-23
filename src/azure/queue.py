@@ -1,6 +1,7 @@
 from src.interfaces.queue import IQueue
 
 class Queue(IQueue):
+
     def __init__(self, queue):
         self.__queue = queue
         self.messages = []
@@ -15,7 +16,7 @@ class Queue(IQueue):
 
         self.messages = []
 
-    def get(self, num_msgs = 1) -> None:
+    def get(self, num_msgs: int = 1) -> None:
         msgs = self.__queue.receive_messages(messages_per_page=num_messages)
 
         new_pages = msgs.by_page().next()

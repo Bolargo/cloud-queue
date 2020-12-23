@@ -3,21 +3,23 @@ import uuid
 import boto3
 
 class Queue(IQueue):
-    def __init__(self, url = None):
+
+    def __init__(self, client, url = None):
         self.url = url
         self.messages = []
+        self.__client = client
 
     @property
     def name(self) -> str:
         return self.url.split('/')[-1]
 
-    def push(self, batch = True) -> None:
+    def push(self, batch: bool = True) -> None:
         if batch: self.__send_in_batchs()
         else: self.__send_sequentially()
 
         self.messages = []
 
-    def get(self, num_mgs = 1) -> None:
+    def get(self, num_mgs: int = 1) -> None:
         new_msgs = self.__client.receive_message(
             QueueUrl=self.url
         )
@@ -37,10 +39,6 @@ class Queue(IQueue):
         return int(
             self.__resource.attributes['ApproximateNumberOfMessages']
         )
-
-    @property
-    def __client(self):
-        return boto3.client('sqs')
 
     @property
     def __resource(self):

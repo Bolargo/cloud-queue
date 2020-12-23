@@ -1,19 +1,24 @@
-import abc
+from abc import ABC, abstractmethod
 
-class IQueue(metaclass=abc.ABCMeta):
+class IQueue(ABC):
 
-    @abc.abstractmethod
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
     def push(self) -> None:
         raise NotImplementedError
 
-    @abc.abstractmethod
+    @abstractmethod
     def get(self, num_messages = 1) -> None:
         raise NotImplementedError
 
-    @abc.abstractmethod
+    @abstractmethod
     def clear(self) -> None:
         raise NotImplementedError
 
-    @abc.abstractmethod
+    @abstractmethod
     def __len__(self) -> int:
         raise NotImplementedError

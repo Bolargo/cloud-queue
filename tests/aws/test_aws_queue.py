@@ -2,25 +2,28 @@ from src.aws.queue import Queue
 from src.aws.queue_manager import QueueManager
 import pytest
 import os
+import uuid
 
 
 class TestQueue:
 
     @classmethod
     def setup_class(cls):
-        self.queue_name = 'dummyqueue1234'
-        queue_manager = QueueManager()
+        cls.queue_name = str(uuid.uuid4())
+        cls.queue_manager = QueueManager(
+            os.environ['AWS_URL'], os.environ['AWS_TOKEN']
+        )
 
         try:
-            self.queue = queue_manager.put(queue_name)
-        except Exception as e:
-            self.queue = queue_manager.get(queue_name)
+            cls.queue = cls.queue_manager.put(queue_name)
+        except Exception:
+            cls.queue = cls.queue_manager.get(queue_name)
 
     @classmethod
     def teardown_class(cls):
-        self.queue.clear()
+        cls.queue.clear()
 
-        assert len(self.queue) == 0
+        assert len(cls.queue) == 0
 
     def test_if_queue_name_is_the_same_as_the_name_is_passed_when_creating_queue_by_queue_manager(self):
         assert self.queue.name == self.queue_name
