@@ -7,6 +7,6 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=('tests',)),
     author='Francisco José Cotán López',
     keywords=['queue', 'cloud', 'aws', 'azure'],
-    url='https://github.com/Bolargo/cloud_queue',
+    url='https://github.com/Bolargo/cloud-queue',
     python_requires='>=3.8'
 )
