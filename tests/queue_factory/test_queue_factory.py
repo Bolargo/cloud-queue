@@ -1,6 +1,9 @@
 from cloud_queue.queue_factory.queue_factory import QueueFactory
 from cloud_queue.aws.queue_manager import QueueManager as AWSQueueManager
+from cloud_queue.aws.queue import Queue as AWSQueue
 from cloud_queue.azure.queue_manager import QueueManager as AzureQueueManager
+from cloud_queue.azure.queue import Queue import AzureQueue
+import os
 import pytest
 
 class TestQueueFactory:
@@ -18,3 +21,17 @@ class TestQueueFactory:
         queue_factory = QueueFactory('Dummy')
 
         assert queue_factory is None
+
+    def test_if_giving_Azure_with_queue_name_we_obtain_Queue(self):
+        queue_factory = QueueFactory(
+            'Azure', os.environ['AZURE_URL'], os.environ['AZURE_TOKEN'], os.environ['AZURE_QUEUE_NAME']
+        )
+
+        assert isinstance(queue_factory, AzureQueue)
+
+    def test_if_giving_AWS_with_queue_name_we_obtain_Queue(self):
+        queue_factory = QueueFactory(
+            'AWS', os.environ['AWS_URL'], os.environ['AWS_TOKEN'], os.environ['AWS_QUEUE_NAME']
+        )
+
+        assert isinstance(queue_factory, AWSQueue)

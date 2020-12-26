@@ -8,6 +8,11 @@ class IQueue(ABC):
     def messages(self) -> List[str]:
         raise NotImplementedError
 
+    @messages.setter
+    @abstractmethod
+    def messages(self, messages: List[str]) -> None:
+        raise NotImplementedError
+
     @property
     @abstractmethod
     def name(self) -> str:

@@ -15,9 +15,9 @@ class TestQueue:
         )
 
         try:
-            cls.queue = cls.queue_manager.put(queue_name)
+            cls.queue = cls.queue_manager.put(cls.queue_name)
         except Exception:
-            cls.queue = cls.queue_manager.get(queue_name)
+            cls.queue = cls.queue_manager.get(cls.queue_name)
 
     @classmethod
     def teardown_class(cls):
