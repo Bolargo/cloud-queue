@@ -1,5 +1,5 @@
-from src.azure.queue_manager import QueueManager
-from src.interfaces.queue import IQueue
+from cloud_queue.azure.queue_manager import QueueManager
+from cloud_queue.interfaces.queue import IQueue
 import pytest
 import os
 import uuid

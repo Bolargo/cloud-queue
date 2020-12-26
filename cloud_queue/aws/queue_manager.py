@@ -1,5 +1,5 @@
-from src.interfaces.queue_manager import IQueueManager
-from src.interfaces.queue import IQueue
+from cloud_queue.interfaces.queue_manager import IQueueManager
+from cloud_queue.interfaces.queue import IQueue
 from .queue import Queue
 from typing import List
 import boto3

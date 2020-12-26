@@ -1,6 +1,12 @@
+from typing import List
 from abc import ABC, abstractmethod
 
 class IQueue(ABC):
+
+    @property
+    @abstractmethod
+    def messages(self) -> List[str]:
+        raise NotImplementedError
 
     @property
     @abstractmethod

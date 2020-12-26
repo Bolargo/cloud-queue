@@ -1,5 +1,5 @@
-from src.azure.queue import Queue
-from src.azure.queue_manager import QueueManager
+from cloud_queue.azure.queue import Queue
+from cloud_queue.azure.queue_manager import QueueManager
 from azure.core.exceptions import ResourceExistsError
 import pytest
 import os

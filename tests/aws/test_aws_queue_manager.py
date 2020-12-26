@@ -1,4 +1,4 @@
-from src.aws.queue_manager import QueueManager
+from cloud_queue.aws.queue_manager import QueueManager
 import uuid
 import pytest
 import os

@@ -1,4 +1,4 @@
-from src.interfaces.queue import IQueue
+from cloud_queue.interfaces.queue import IQueue
 import uuid
 import boto3
 

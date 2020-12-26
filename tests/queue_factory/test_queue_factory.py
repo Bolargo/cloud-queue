@@ -1,6 +1,6 @@
-from src.queue_factory.queue_factory import QueueFactory
-from src.aws.queue_manager import QueueManager as AWSQueueManager
-from src.azure.queue_manager import QueueManager as AzureQueueManager
+from cloud_queue.queue_factory.queue_factory import QueueFactory
+from cloud_queue.aws.queue_manager import QueueManager as AWSQueueManager
+from cloud_queue.azure.queue_manager import QueueManager as AzureQueueManager
 import pytest
 
 class TestQueueFactory:
