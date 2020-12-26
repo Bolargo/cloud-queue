@@ -45,3 +45,12 @@ class TestQueue:
         self.queue.push(False)
 
         assert len(self.queue) == len(new_messages) + num_msgs_before_push
+
+    def test_if_more_than_10_msgs_can_be_pushed_in_batch_mode(self):
+        new_messages = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+        self.queue.messages = new_messages
+        num_msgs_before_push = len(self.queue)
+
+        self.queue.push()
+
+        assert len(self.queue) == len(new_messages) + num_msgs_before_push

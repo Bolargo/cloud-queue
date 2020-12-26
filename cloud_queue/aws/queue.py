@@ -60,8 +60,12 @@ class Queue(IQueue):
             )
 
     def __send_in_batchs(self):
-        msgs = [
-            { 'Id': str(uuid.uuid4()), 'MessageBody': msg } for msg in self.__messages
-        ]
+        num_max_of_msgs_each_batch = 10
+        batchs = [self.__messages[i: i + num_max_of_msgs_each_batch] for i in range(0, len(self.__messages), num_max_of_msgs_each_batch)]
 
-        self.__resource.send_messages(Entries=msgs)
+        for batch in batchs:
+            msgs = [
+                { 'Id': str(uuid.uuid4()), 'MessageBody': msg } for msg in batch
+            ]
+
+            self.__resource.send_messages(Entries=msgs)
