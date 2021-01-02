@@ -26,12 +26,12 @@ class Queue(IQueue):
         self.__messages = []
 
     def get(self, num_msgs: int = 1) -> None:
-        msgs = self.__queue.receive_messages(messages_per_page=num_messages)
+        msgs = self.__queue.receive_messages(messages_per_page=num_msgs)
 
         new_pages = msgs.by_page().next()
-        self.__messages.append(new_pages)
 
         for msg in new_pages:
+            self.__messages.append(msg['content'])
             self.__queue.delete_message(msg)
 
     def clear(self) -> None:

@@ -28,16 +28,21 @@ class Queue(IQueue):
 
         self.__messages = []
 
-    def get(self, num_mgs: int = 1) -> None:
-        new_msgs = self.__client.receive_message(
-            QueueUrl=self.url
-        )
-        self.__messages.append(new_msgs)
+    def get(self, num_msgs: int = 1) -> None:
+        for i in range(num_msgs):
+            new_msgs = self.__client.receive_message(
+                QueueUrl=self.url
+            )['Messages']
+            self.__messages += [
+                msg['Body'] for msg in new_msgs
+            ]
 
-        self.__client.delete_message_batch(
-            QueueUrl=self.url,
-            Entries=self.__messages
-        )
+            self.__client.delete_message_batch(
+                QueueUrl=self.url,
+                Entries=[
+                    { 'Id': msg['MessageId'], 'ReceiptHandle': msg['ReceiptHandle'] } for msg in new_msgs
+                ]
+            )
 
     def clear(self) -> None:
         self.__client.purge_queue(
