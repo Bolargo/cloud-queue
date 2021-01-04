@@ -22,13 +22,13 @@ class Queue(IQueue):
     def messages(self, messages: List[str]) -> None:
         self.__messages = messages
 
-    def push(self, batch: bool = True) -> None:
-        if batch: self.__send_in_batchs()
-        else: self.__send_sequentially()
+    def push(self, msgs: List[str] = None, batch: bool = True) -> None:
+        if batch: self.__send_in_batchs(msgs)
+        else: self.__send_sequentially(msgs)
 
-        self.__messages = []
+        if not msgs: self.__messages = []
 
-    def get(self, num_msgs: int = 1) -> None:
+    def get(self, num_msgs: int = 1, remove_msgs: bool = True) -> None:
         for i in range(num_msgs):
             new_msgs = self.__client.receive_message(
                 QueueUrl=self.url
@@ -37,12 +37,13 @@ class Queue(IQueue):
                 msg['Body'] for msg in new_msgs
             ]
 
-            self.__client.delete_message_batch(
-                QueueUrl=self.url,
-                Entries=[
-                    { 'Id': msg['MessageId'], 'ReceiptHandle': msg['ReceiptHandle'] } for msg in new_msgs
-                ]
-            )
+            if remove_msgs:
+                self.__client.delete_message_batch(
+                    QueueUrl=self.url,
+                    Entries=[
+                        { 'Id': msg['MessageId'], 'ReceiptHandle': msg['ReceiptHandle'] } for msg in new_msgs
+                    ]
+                )
 
     def clear(self) -> None:
         self.__client.purge_queue(
@@ -58,15 +59,20 @@ class Queue(IQueue):
     def __resource(self):
         return boto3.resource('sqs').Queue(self.url)
 
-    def __send_sequentially(self):
-        for msg in self.__messages:
+    def __send_sequentially(self, msgs: List[str] = None):
+        msgs = self.messages if not msgs else msgs
+
+        for msg in msgs:
             self.__resource.send_message(
                 MessageBody=msg
             )
 
-    def __send_in_batchs(self):
+    def __send_in_batchs(self, msgs: List[str] = None):
+        msgs = self.messages if not msgs else msgs
         num_max_of_msgs_each_batch = 10
-        batchs = [self.__messages[i: i + num_max_of_msgs_each_batch] for i in range(0, len(self.__messages), num_max_of_msgs_each_batch)]
+        batchs = [
+            msgs[i: i + num_max_of_msgs_each_batch] for i in range(0, len(self.__messages), num_max_of_msgs_each_batch)
+        ]
 
         for batch in batchs:
             msgs = [

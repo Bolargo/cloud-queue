@@ -19,20 +19,22 @@ class Queue(IQueue):
     def messages(self, messages: List[str]) -> None:
         self.__messages = messages
 
-    def push(self) -> None:
-        for msg in self.__messages:
+    def push(self, msgs: List[str] = None) -> None:
+        messages_to_send = msgs if msgs else self.messages
+
+        for msg in messages_to_send:
             self.__queue.send_message(msg)
 
-        self.__messages = []
+        if not msgs: self.__messages = []
 
-    def get(self, num_msgs: int = 1) -> None:
+    def get(self, num_msgs: int = 1, remove_msgs: bool = True) -> None:
         msgs = self.__queue.receive_messages(messages_per_page=num_msgs)
 
         new_pages = msgs.by_page().next()
 
         for msg in new_pages:
             self.__messages.append(msg['content'])
-            self.__queue.delete_message(msg)
+            if remove_msgs: self.__queue.delete_message(msg)
 
     def clear(self) -> None:
         self.__queue.clear_messages()

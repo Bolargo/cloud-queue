@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='cloud_queue',
-    version='0.0.1',
+    version='0.0.3',
     description='An abstraction of SQS and Azure Queue Storage',
     packages=setuptools.find_packages(exclude=('tests',)),
     author='Francisco José Cotán López',
