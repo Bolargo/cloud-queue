@@ -71,7 +71,7 @@ class Queue(IQueue):
         msgs = self.messages if not msgs else msgs
         num_max_of_msgs_each_batch = 10
         batchs = [
-            msgs[i: i + num_max_of_msgs_each_batch] for i in range(0, len(self.__messages), num_max_of_msgs_each_batch)
+            msgs[i: i + num_max_of_msgs_each_batch] for i in range(0, len(msgs), num_max_of_msgs_each_batch)
         ]
 
         for batch in batchs:
